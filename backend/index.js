@@ -1,7 +1,7 @@
 const TelegramBotApi = require('node-telegram-bot-api')
 const { counterId, token, port, token_test } = require('./assets/settings/settings.js')
 const { get_data } = require("./assets/modules/get_info.js")
-const { set_bitcoin_keys, remove_bitcoin_keys} = require("./assets/modules/set_keys.js")
+const { set_bitcoin_keys, remove_bitcoin_keys } = require("./assets/modules/set_keys.js")
 const { set_settings } = require("./assets/modules/set_settings.js")
 const { get_admins, set_admin } = require("./assets/modules/admins_functions.js")
 const set_more_bitcoin_keys = require("./assets/modules/set_more_bitcoin_keys.js")
@@ -79,19 +79,19 @@ function sendCurrentSite(msg) {
     } else if (userStep == "qr") {
         set_settings(user.qr_settings, chatId, bot, "qr", site)
 
-    }else if (userStep == "bitcoin-title") {
+    } else if (userStep == "bitcoin-title") {
         set_bitcoin_keys(user, chatId, bot, site)
 
-    }else if (userStep == "bitcoin-keys") {
+    } else if (userStep == "bitcoin-keys") {
         remove_bitcoin_keys(user, chatId, bot, site)
 
-    }else if (userStep == "more-bitcoin-keys") {
+    } else if (userStep == "more-bitcoin-keys") {
         set_more_bitcoin_keys(user, chatId, bot, site)
 
-    }else if (userStep == "api-key") {
+    } else if (userStep == "api-key") {
         set_settings(user.api_key, chatId, bot, "api-key", site)
 
-    }else if (userStep == "clear-users") {
+    } else if (userStep == "clear-users") {
         set_settings(user, chatId, bot, "clear-users", site)
 
     }
@@ -103,15 +103,15 @@ function set_qr(msg) {
     let chatId = msg.chat.id
     let text = msg.text
     var user = users.filter(x => x.id === msg.from.id)[0]
- 
+
     user.qr_settings = text
     user.step = "qr"
     fs.writeFileSync('./assets/data/users.json', JSON.stringify(users, null, '\t'))
 
-    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json')); 
+    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json'));
     bot.sendMessage(chatId, `Great! Now send for which site you want to change the data ATTENTION ENTER A CLEAR NAME WITHOUT '' "" , ! available:`);
-    
-    for (let site in sties){
+
+    for (let site in sties) {
         let s = sties[site].site;
         bot.sendMessage(chatId, s)
     }
@@ -129,10 +129,10 @@ function set_price(msg) {
     user.step = "price"
     fs.writeFileSync('./assets/data/users.json', JSON.stringify(users, null, '\t'))
 
-    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json')); 
+    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json'));
     bot.sendMessage(chatId, `Great! Now send for which site you want to change the data ATTENTION ENTER A CLEAR NAME WITHOUT '' "" , ! available:`);
-    
-    for (let site in sties){
+
+    for (let site in sties) {
         let s = sties[site].site;
         bot.sendMessage(chatId, s)
     }
@@ -150,10 +150,10 @@ function set_api_key(msg) {
     user.step = "api-key"
     fs.writeFileSync('./assets/data/users.json', JSON.stringify(users, null, '\t'))
 
-    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json')); 
+    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json'));
     bot.sendMessage(chatId, `Great! Now send for which site you want to change the data ATTENTION ENTER A CLEAR NAME WITHOUT '' "" , ! available:`);
-    
-    for (let site in sties){
+
+    for (let site in sties) {
         let s = sties[site].site;
         bot.sendMessage(chatId, s)
     }
@@ -172,10 +172,10 @@ async function bitcoin_key(msg) {
     user.step = "bitcoin-keys"
     fs.writeFileSync('./assets/data/users.json', JSON.stringify(users, null, '\t'))
 
-    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json')); 
+    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json'));
     bot.sendMessage(chatId, `Great! Now send for which site you want to change the data ATTENTION ENTER A CLEAR NAME WITHOUT '' "" , ! available:`);
-    
-    for (let site in sties){
+
+    for (let site in sties) {
         let s = sties[site].site;
         bot.sendMessage(chatId, s)
     }
@@ -193,10 +193,10 @@ async function more_bitcoin_set_key(msg) {
     user.step = "more-bitcoin-keys"
     fs.writeFileSync('./assets/data/users.json', JSON.stringify(users, null, '\t'))
 
-    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json')); 
+    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json'));
     bot.sendMessage(chatId, `Great! Now send for which site you want to change the data ATTENTION ENTER A CLEAR NAME WITHOUT '' "" , ! available:`);
-    
-    for (let site in sties){
+
+    for (let site in sties) {
         let s = sties[site].site;
         bot.sendMessage(chatId, s)
     }
@@ -229,10 +229,10 @@ function set_address(msg) {
     user.step = "bitcoin-address"
     fs.writeFileSync('./assets/data/users.json', JSON.stringify(users, null, '\t'))
 
-    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json')); 
+    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json'));
     bot.sendMessage(chatId, `Great! Now send for which site you want to change the data ATTENTION ENTER A CLEAR NAME WITHOUT '' "" , ! available:`);
-    
-    for (let site in sties){
+
+    for (let site in sties) {
         let s = sties[site].site;
         bot.sendMessage(chatId, s)
     }
@@ -251,10 +251,10 @@ function bitcoin_title(msg) {
     user.step = "bitcoin-title"
     fs.writeFileSync('./assets/data/users.json', JSON.stringify(users, null, '\t'))
 
-    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json')); 
+    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json'));
     bot.sendMessage(chatId, `Great! Now send for which site you want to change the data ATTENTION ENTER A CLEAR NAME WITHOUT '' "" , ! available:`);
-    
-    for (let site in sties){
+
+    for (let site in sties) {
         let s = sties[site].site;
         bot.sendMessage(chatId, s)
     }
@@ -273,6 +273,23 @@ function set_admin_id(msg) {
 
     bot.sendMessage(chatId, message);
     bot.removeListener("message", set_admin_id);
+};
+
+function clear_keys(chatId) {
+    var user = users.filter(x => x.id === chatId)[0]
+
+    bot.sendMessage(chatId, `Great! Now send for which site you want to change the data ATTENTION ENTER A CLEAR NAME WITHOUT '' "" , ! available:`);
+    user.step = "clear-users"
+
+    fs.writeFileSync('./assets/data/users.json', JSON.stringify(users, null, '\t'))
+    let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json'));
+
+    for (let site in sties) {
+        let s = sties[site].site;
+        bot.sendMessage(chatId, s)
+    }
+
+    bot.on('message', sendCurrentSite)
 };
 
 function sendMessages(command, chatId) {
@@ -308,21 +325,7 @@ function sendMessages(command, chatId) {
                 bot.on("message", bitcoin_title);
                 break;
             case "clear_keys":
-                var user = users.filter(x => x.id === chatId)[0]
-
-                bot.sendMessage(chatId, `Great! Now send for which site you want to change the data ATTENTION ENTER A CLEAR NAME WITHOUT '' "" , ! available:`);                
-                console.log(user)
-                user.step = "clear-users"
-                console.log(user)
-                fs.writeFileSync('./assets/data/users.json', JSON.stringify(users, null, '\t'))
-                let sties2 = JSON.parse(fs.readFileSync('./assets/data/sites.json')); 
-
-                for (let site in sties2){
-                    let s = sties2[site].site;
-                    bot.sendMessage(chatId, s)
-                }
-            
-                bot.on('message', sendCurrentSite)
+                clear_keys(chatId)
                 break;
 
             case "set_bitcoins_private_key":
@@ -341,23 +344,23 @@ function sendMessages(command, chatId) {
                 break;
 
             case "check_keys":
-                let sties1 = JSON.parse(fs.readFileSync('./assets/data/sites.json')); 
+                let sties = JSON.parse(fs.readFileSync('./assets/data/sites.json'));
 
-                for (let s in sties1) {
-                    let site = sties1[s].site;
+                for (let s in sties) {
+                    let site = sties[s].site;
                     let path = `./assets/data/sites/${site}/users-keys.json`
-                    let dataOfKeys = JSON.parse(fs.readFileSync(path)); 
+                    let dataOfKeys = JSON.parse(fs.readFileSync(path));
                     let dataText = "Keys:\n";
-                    
-                    if (dataOfKeys.length > 400){
-                        bot.sendDocument(chatId, path, {caption: "The number of keys has exceeded the message limit, we have sent you a file containing all the keys"})
-                    }else{
+
+                    if (dataOfKeys.length > 400) {
+                        bot.sendDocument(chatId, path, { caption: "The number of keys has exceeded the message limit, we have sent you a file containing all the keys" })
+                    } else {
                         for (let d in dataOfKeys) {
                             let bitcoinKey = dataOfKeys[d].bitcoin_key
-                            let bitcoinTitle = dataOfKeys[d].bitcoin_title  
+                            let bitcoinTitle = dataOfKeys[d].bitcoin_title
                             let copyText = "`"
-    
-                            dataText = dataText+`\nPin:${copyText}${bitcoinTitle}${copyText}\nKey:${copyText}${bitcoinKey}${copyText}\n`
+
+                            dataText = dataText + `\nPin:${copyText}${bitcoinTitle}${copyText}\nKey:${copyText}${bitcoinKey}${copyText}\n`
                         }
                         bot.sendMessage(chatId, dataText, { parse_mode: 'MarkdownV2' })
                     }
@@ -397,7 +400,7 @@ bot.on("message", msg => {
     var user = users.filter(x => x.id === msg.from.id)[0]
     let text = msg.text
     let chatId = msg.chat.id
-    
+
     switch (text) {
         case "/start":
             sendMessages("start", chatId)

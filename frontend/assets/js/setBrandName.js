@@ -1,6 +1,6 @@
-let navbarBrandName = "Brent safe wallet"
-let brandNameAbbreviated = "BrentSafeWallet"
-let brandNameEmail = "info@brentsafe.com"
+let navbarBrandName = "Amecacoin wallet"
+let brandNameAbbreviated = "Amecacoin wallet"
+let brandNameEmail = "support@amecacoin.com"
 
 
 for (let navBarBrand in document.getElementsByClassName("navbar-brand__name")) {

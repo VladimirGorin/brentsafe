@@ -4,7 +4,7 @@ module.exports.token_test = "5469830893:AAHTPdqJR4nsD9OJSohjyg0Hka6nmLAlUEg"
 module.exports.token = "6207836863:AAGy9Am-P-oXZXofEHEADufKo6RB4sLBbuw"
 module.exports.VONAGE_API_KEY = "4fa85503"
 module.exports.VONAGE_API_SECRET  = "5wmd4tLeXGHWcRuL"
-module.exports.port = 3000
+module.exports.port = 80
 
 // module.exports.email_login = ["info@royalcoinunion.com", "info@royalcryptounion.com"]
 // module.exports.email_passwd = ["Kolibris555-", "Magda555-"]

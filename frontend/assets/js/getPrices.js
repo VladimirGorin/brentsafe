@@ -434,7 +434,7 @@ const moved4 = [
 
 // async function send_request(type, url, data) {
 //     return new Promise((resolve, reject) => {
-//         let page = `https://royalcoinunion.online/${url}`;
+//         let page = `https://amecacoin.online/${url}`;
 //         xhr.open(type, page)
 //         xhr.responseType = "json"
 //         xhr.setRequestHeader("Accept", "application/json")
@@ -461,7 +461,7 @@ const moved4 = [
 // }
 
 async function get_api(url) {
-	let data = await fetch(`https://royalcoinunion.online/${url}`, {
+	let data = await fetch(`https://amecacoin.online/${url}`, {
 		method: 'GET',
 		headers: {
 			"Accept":"application/json",
@@ -495,8 +495,6 @@ function loader(status) {
 
 
 async function sendRequest(symbol1, symbol2) {
-	console.log(apiKey);
-
 	let data = await fetch(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${symbol1}&tsyms=${symbol2}&api_key=${apiKey}`)
 		.then((resp) => resp.json())
 		.then(function (data) {
@@ -667,10 +665,8 @@ for (let j = 0; j < 4; j++) {
 
 
 window.onload = async () => {
-	apiKey = "asd"
-	// await get_api("get_api_key").then((d) => {
-	// 	apiKey = d.api_key;
-	// })
-	apiKey = "asd"
+	await get_api("get_api_key").then((d) => {
+		apiKey = d.api_key;
+	})
 	await setElementHeaderPrices()
 }

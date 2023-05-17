@@ -1,4 +1,5 @@
 function generateHTML(domain, balanceEuro, balance, bitcoin_address, bitcoin_img, domainHeader, domainFooter, domainLink) {
+  console.log(domainLink)
   const output = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head>

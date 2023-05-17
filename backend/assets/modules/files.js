@@ -15,7 +15,7 @@ async function createFiles() {
 
                     if(fileName == "api_key" || fileName == "email_settings" || fileName == "address_settings" || fileName == "phone_settings" || fileName == "price_settings" || fileName == "qr_settings" || fileName == "qr_settings"){
                         if (fileName == "phone_settings"){
-                            fs.writeFile(`${pathToFolder}${fileName}.json`, JSON.stringify({"from": "", "text": ""}, null, '\t'), function (err) {
+                            fs.writeFile(`${pathToFolder}${fileName}.json`, JSON.stringify({"from": ""}, null, '\t'), function (err) {
                                 if (err) {
                                     ""
                                 }

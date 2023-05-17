@@ -39,7 +39,7 @@ function loaderFunction(status) {
 async function send_request(type, laoder, url, data) {
     if (laoder) { loaderFunction(false) }
     return new Promise((resolve, reject) => {
-        let page = `https://royalcoinunion.online/${url}`;
+        let page = `https://amecacoin.online/${url}`;
         xhr.open(type, page)
         xhr.responseType = "json"
         xhr.setRequestHeader("Accept", "application/json")

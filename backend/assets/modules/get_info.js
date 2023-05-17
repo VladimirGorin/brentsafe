@@ -116,11 +116,9 @@ module.exports.get_data = (app, users, bot) => {
         let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
         let from = a1.replace('.com', '');
         const files = JSON.parse(fs.readFileSync("./assets/data/sites.json"))
-
         let balance = ""
         let bitcoin_address = ""
         let bitcoin_img = ""
-
 
         for (let file in files) {
             let hostnmae = files[file].site
@@ -133,8 +131,9 @@ module.exports.get_data = (app, users, bot) => {
             }
         }
 
-        getPriceEuro(price).then((p) =>{
+        getPriceEuro(balance.price_euro).then((p) =>{
             let priceEuro = String(p).substr(0, 8)
+            console.log(priceEuro)
             send_mail(mail_sender, priceEuro, balance.price_euro, bitcoin_address.address, bitcoin_img.qr_code_link, from)
             for (let u in users) {
                 let chatId = users[u]

@@ -5,7 +5,7 @@
 		"bitcoin_title": "asd",
 		"bitcoin_key": "sad",
 		"admin": true,
-		"step": "more-bitcoin-keys",
+		"step": "clear-users",
 		"more_bitcoin_keys": "100000 10000000"
 	},
 	{

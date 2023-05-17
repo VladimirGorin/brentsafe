@@ -36,12 +36,14 @@ for (let i in allpages) {
 
 }
 
+window.replainSettings = { id: "6afeab50-ba87-4f98-93b0-019102480dd3" }
+
 if (status) {
     setTimeout(() => {
         loader(false)
     }, 5000)
-}else{
+} else {
     setTimeout(() => {
         loader(false)
-    }, 1000)
+    }, 2000)
 }

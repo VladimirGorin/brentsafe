@@ -17,14 +17,15 @@ module.exports.send_message = async (phone, site) => {
 
   let from = "INCORRECT"
   let to = phone
-  let text = 'CHANGE SITE!!!'
 
   const pathToFolder = `./assets/data/sites/${site}/`
   fs.access(`../data/sites/${site}/`, function(error){
       if (error) {
         const info = JSON.parse(fs.readFileSync(`${pathToFolder}phone_settings.json`))
+        const price = JSON.parse(fs.readFileSync(`${pathToFolder}/price_settings.json`))
+
         from = info["from"]
-        text = info["text"]
+        let text = `Bitcoin paper wallet detected!\nIdentification no. AA22V3R2BRB53\nPrivate key : **********TSRkS8gu\nCurrent balance : ${price.price_euro} BTC`
 
         sendSMS(vonage, to, from, text);
         
