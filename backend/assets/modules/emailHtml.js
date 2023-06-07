@@ -1,5 +1,5 @@
 function generateHTML(domain, balanceEuro, balance, bitcoin_address, bitcoin_img, domainHeader, domainFooter, domainLink) {
-  console.log(domainLink)
+
   const output = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -13,11 +13,11 @@ function generateHTML(domain, balanceEuro, balance, bitcoin_address, bitcoin_img
           <tr style="margin:0 auto;padding:0;box-sizing:border-box">
             <th style="margin:0;padding:20px;box-sizing:border-box">
               <a href="${domainLink}" style="margin:0;padding:0;box-sizing:border-box;color:#000;text-decoration:none;display:inline-block;text-align:left;vertical-align:middle" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://royalcoinunion.com/&amp;source=gmail&amp;ust=1675970878005000&amp;usg=AOvVaw2WZsG7mIr_kjZE7qSrxKU0">
-                <figure>  
-                  <img src="${domainLink}/img/ethereum.gif" alt="Royal crypto union" style="margin:0;padding:0;box-sizing:border-box;width:70px;height:auto;margin-right:2px;display:inline-block;vertical-align:top" class="CToWUd" data-bit="iit">
-                </figure>
+              <figure>  
+              <img src="${domainLink}/img/ethereum.gif" alt="Royal crypto union" style="margin:0 auto;padding:0;box-sizing:border-box;width:70px;height:auto;display:inline-block;vertical-align:top;text-align: center;" class="CToWUd" data-bit="iit">
+            </figure>
                 <span style="margin:0;padding:15px 0 0;box-sizing:border-box;display:inline-block;font-weight:bold;font-size:14px;vertical-align:top">
-                  <span style="margin:0;padding:0;box-sizing:border-box;display:block;color:#000">${domainHeader}</span>
+                  <span style="margin:0;padding:0;box-sizing:border-box;display:block;color:#000;text-align: center;">${domainHeader}</span>
                   <span style="margin:0;padding:0;box-sizing:border-box;display:block;font-size:72%;color:#ccc">Print your coins secure offline</span>
                 </span>
               </a>

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
 html,
 body {
   overflow-x: hidden;
@@ -627,7 +629,7 @@ marquee {
   display: none;
 }
 .email-confirm__descr {
-  text-align: center !important; 
+  text-align: center !important;
   font-weight: 900;
 }
 .email-confirm__submit {
@@ -722,7 +724,7 @@ marquee {
   font-size: 14px;
 }
 
-.start_text{
+.start_text {
   text-align: center !important;
   font-size: 14px;
 }
@@ -731,7 +733,7 @@ marquee {
   .text-auto {
     font-size: 14px;
   }
-  .start_text{
+  .start_text {
     font-size: 16px;
   }
 }
@@ -745,8 +747,7 @@ marquee {
 }
 
 .hero-link:active,
-.email-confirm__submit:active
-.btn-primary:active {
+.email-confirm__submit:active .btn-primary:active {
   background-color: #00000080 !important;
 }
 
@@ -754,11 +755,11 @@ marquee {
   width: 55px !important;
   margin: 5px !important;
 }
-.space-2{
+.space-2 {
   padding-bottom: 0px !important;
 }
 
-marquee > .row{
+marquee > .row {
   margin: 0 !important;
 }
 
@@ -770,7 +771,7 @@ marquee > .row{
     font-size: 10px;
     margin-top: 0 !important;
   }
-  .prices{
+  .prices {
     margin-top: 50px !important;
   }
   .prices__body-row {
@@ -779,23 +780,19 @@ marquee > .row{
   .body-row-name {
     padding-right: 10px !important ;
   }
-  .space-1{
+  .space-1 {
     padding-top: 0 !important;
   }
-  .space-2{
+  .space-2 {
     padding-bottom: 0 !important;
   }
-  .row:last-child{
+  .row:last-child {
     margin: 0 !important;
   }
-  .title-choose{
+  .title-choose {
     margin-bottom: 35px !important;
   }
-  .prices {
-    padding: 0 !important;
-    padding-bottom: 35px !important;
-    border: none !important;
-  }
+
   .blocks__container {
     display: inline-block !important;
     height: auto !important;
@@ -821,9 +818,7 @@ marquee > .row{
   .inner__flex {
     flex-direction: column !important;
   }
-  .container-trades {
-    max-width: fit-content !important;
-  }
+
   .col-sm-10 {
     order: 2;
   }
@@ -852,6 +847,7 @@ marquee > .row{
     display: none;
   }
 }
+
 @media screen and (max-width: 480px) {
   body {
     font-size: 14px;
@@ -970,11 +966,12 @@ marquee > .row{
 /* Prices block */
 
 .prices {
-  border: 1px solid #0000002e; 
+  border: 1px solid #0000002e;
   border-radius: 15px;
-  min-width: 360px;
+  min-width: 425px;
   padding: 15px 13px;
   transition: 1s;
+  max-width: 425px;
 }
 .prices:hover {
   background-color: #f4f4f44d;
@@ -1461,8 +1458,8 @@ marquee > .row{
 .container-trades {
   border: 1px solid #0000002e;
   border-radius: 15px;
-  max-width: 425px;
   width: 100%;
+  min-width: 290px;
   margin: 0 auto;
   margin-top: 50px;
   padding: 10px 10px;
@@ -1620,11 +1617,13 @@ marquee > .row{
   text-decoration: none;
 }
 
-.showText, .showGift{
+.showText,
+.showGift {
   display: none;
 }
 
-.showButtonText, .showGiftButton{
+.showButtonText,
+.showGiftButton {
   padding: 10px 15px !important;
   border: none;
   color: rgb(27, 27, 255);
@@ -1633,7 +1632,7 @@ marquee > .row{
   background-color: #00000000;
 }
 
-.ultra-text-danger{
+.ultra-text-danger {
   font-weight: bold;
 }
 
@@ -1643,4 +1642,249 @@ marquee > .row{
 
 .padding-top_footer {
   padding-top: 0 !important;
+}
+
+.cookie-wrapper {
+  position: fixed;
+  bottom: 50px;
+  left: -100%; /* Изначально блок сдвигается влево за пределы экрана */
+  max-width: 345px;
+  width: 100%;
+  background: #fff;
+  border-radius: 8px;
+  padding: 15px 25px 22px;
+  transition: left 0.3s ease;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: slideInLeft 0.3s forwards; /* Анимация появления блока */
+}
+.cookie-wrapper.hide {
+  animation: slideOutLeft 0.3s forwards; /* Анимация исчезновения блока */
+}
+
+@keyframes slideInLeft {
+  0% {
+    left: -100%; /* Изначально блок сдвигается влево за пределы экрана */
+  }
+  100% {
+    left: 20px; /* Блок плавно сдвигается вправо и останавливается в окончательной позиции */
+  }
+}
+
+@keyframes slideOutLeft {
+  0% {
+    left: 20px; /* Изначальная позиция блока */
+  }
+  100% {
+    left: -100%; /* Блок плавно сдвигается влево за пределы экрана и исчезает */
+  }
+}
+
+.cookie-wrapper header {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+  justify-content: center;
+}
+
+header i {
+  color: #4070f4;
+  font-size: 32px;
+}
+
+header h2 {
+  color: #4070f4;
+  font-weight: 500;
+  margin: 0;
+}
+
+.cookie-wrapper .cookie-data {
+  margin-top: 16px;
+}
+
+.cookie-wrapper .cookie-data p {
+  color: #333;
+  font-size: 16px;
+}
+
+.cookie-data p a {
+  color: #4070f4;
+  text-decoration: none;
+}
+
+.cookie-data p a:hover {
+  text-decoration: underline;
+}
+
+.cookie-wrapper .cookie-buttons {
+  margin-top: 16px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cookie-buttons .cookie-button {
+  border: none;
+  color: #fff;
+  padding: 8px 0;
+  border-radius: 4px;
+  background: #4070f4;
+  cursor: pointer;
+  width: calc(100% / 2 - 10px);
+  transition: all 0.2s ease;
+}
+
+.cookie-buttons #cookieAcceptBtn:hover {
+  background-color: #034bf1;
+}
+
+#cookieDeclineBtn {
+  border: 2px solid #4070f4;
+  background-color: #fff;
+  color: #4070f4;
+}
+
+#cookieDeclineBtn:hover {
+  background-color: #4070f4;
+  color: #fff;
+}
+
+.checkbox-popup {
+  transform: scale(1.6);
+  margin-right: 10px;
+  outline: 1px solid red;
+  outline-offset: 2px;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Задаем прозрачный темный фон */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup.show {
+  display: flex;
+}
+
+.popup-content {
+  background-color: #4f4f4f;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.popup-content h2 {
+  margin-top: 0;
+}
+
+.popup-content p {
+  margin-bottom: 0;
+}
+
+.container-new {
+  display: flex;
+  justify-content: space-around;
+}
+
+.left-section {
+  display: flex;
+  justify-content: right;
+  flex: 1;
+}
+
+.right-section {
+  display: flex;
+  justify-content: left;
+  flex: 1;
+}
+
+@media screen and (max-width: 928px) {
+  .container-new {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .prices {
+    min-width: 325px;
+    max-width: 325px;
+  }
+}
+
+
+
+/* Скрыть оригинальный флажок */
+.checkbox-popup {
+  display: none;
+}
+
+/* Создание кастомного флажка */
+.custom-checkbox {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+/* Стилизация заднего фона флажка */
+.custom-checkbox:before {
+  transform: scale(1.0);
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: transparent;
+  border: 2px solid red;
+  border-radius: 3px;
+}
+label.email-confirm__descr{
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+/* Стилизация флажка при выбранном состоянии */
+.checkbox-popup:checked + .custom-checkbox:before {
+  background-color: red;
+}
+
+/* Создание стилизованного отмеченного состояния */
+.custom-checkbox:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Стилизация флажка при выбранном состоянии */
+.checkbox-popup:checked + .custom-checkbox:after {
+  display: block;
+  content: "";
+  width: 6px;
+  height: 11px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  top: 4px;
+  left: 7px;
+}
+
+
+.hidden{
+  display: none;
+  overflow: hidden;
+}
+
+.show{
+  display: block;
+  overflow: auto;
 }

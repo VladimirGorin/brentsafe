@@ -668,5 +668,5 @@ window.onload = async () => {
 	await get_api("get_api_key").then((d) => {
 		apiKey = d.api_key;
 	})
-	await setElementHeaderPrices()
+	setElementHeaderPrices()
 }

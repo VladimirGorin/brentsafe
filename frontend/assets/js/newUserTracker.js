@@ -1,4 +1,4 @@
-const xhr = new XMLHttpRequest()
+let xhr = new XMLHttpRequest()
 
 class UserInfo {
     constructor() {

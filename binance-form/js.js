@@ -1,0 +1,2 @@
+const t = document.querySelector("#widget");
+window.binanceFiatWidget.Widget(t, { locale: 'en', coinInfo: { fiat: '', crypto: '', isInUS: false }, urlParmas: { ref: 'LTUMGDDC' } }, type='text/javascript');
